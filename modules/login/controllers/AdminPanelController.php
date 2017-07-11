@@ -116,11 +116,14 @@ class AdminPanelController extends Controller
             Yii::error($e->getMessage() . ' ' . $e->getFile() . ' '
                     . $e->getLine() . ' ' . $e->getTraceAsString());
             $model->removePasswordFromModel();
-            return $this->render('create', [
-                        'exception' => ['message' => 'Could not create user, please try again later'],
-                        'model' => $model,
-                        'roles' => $roles,
-            ]);
+            
+            //throw the exception back
+            throw $e;
+//            return $this->render('create', [
+//                        'exception' => ['message' => 'Could not create user, please try again later'],
+//                        'model' => $model,
+//                        'roles' => $roles,
+//            ]);
         }
     }
 

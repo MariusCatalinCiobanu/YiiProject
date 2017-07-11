@@ -8,6 +8,7 @@ use app\models\User;
 use app\models\TripImage;
 use yii\helpers\ArrayHelper;
 
+//TripForm is the model behind the trip form.
 class TripForm extends Trip
 {
 

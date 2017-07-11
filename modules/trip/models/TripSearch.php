@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use app\models\Trip;
 
 /**
- * TripsSearch2 represents the model behind the search form of `app\models\Trip`.
+ * TripsSearch represents the model behind the search form of `app\models\Trip`.
  */
 class TripSearch extends Trip
 {

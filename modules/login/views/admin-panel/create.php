@@ -12,13 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="users-admin-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php
-    if (isset($exception)) {
-        echo $this->render('@app/views/shared/_exception', [
-            'exception' => $exception,
-        ]);
-    }
-    ?>
     <?=
     $this->render('_form', [
         'model' => $model,

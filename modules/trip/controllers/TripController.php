@@ -186,10 +186,13 @@ class TripController extends Controller
                 $transaction->rollBack();
                 Yii::error($e->getMessage() . ' ' . $e->getFile() . ' '
                         . $e->getLine() . ' ' . $e->getTraceAsString());
-                return $this->render('create', [
-                            'model' => $model,
-                            'exception' => ['message' => 'Could not create the trip please try again later'],
-                ]);
+                
+                //throw back the exception
+                throw $e;
+//                return $this->render('create', [
+//                            'model' => $model,
+//                            'exception' => ['message' => 'Could not create the trip please try again later'],
+//                ]);
                 //throw new UserException($e->getMessage());
             }
         }
@@ -227,10 +230,13 @@ class TripController extends Controller
                 $transaction->rollBack();
                 Yii::error($e->getMessage() . ' ' . $e->getFile() . ' '
                         . $e->getLine() . ' ' . $e->getTraceAsString());
-                return $this->render('create', [
-                            'model' => $model,
-                            'exception' => ['message' => 'Could not update the trip please try again later'],
-                ]);
+               
+                //throw back the exception
+                throw $e;
+//                return $this->render('create', [
+//                            'model' => $model,
+//                            'exception' => ['message' => 'Could not update the trip please try again later'],
+//                ]);
             }
         } else {
             return $this->render('update', [

@@ -128,7 +128,10 @@ class LoginController extends Controller
             } catch (\Exception $e) {
                 Yii::error($e->getMessage() . ' ' . $e->getFile() . ' '
                         . $e->getLine() . ' ' . $e->getTraceAsString());
-                return $this->render('forgotPassword', ['model' => $model]);
+                
+                //throw back the exception
+                throw $e;
+//                return $this->render('forgotPassword', ['model' => $model]);
             }
         } else {
             return $this->render('forgotPassword', ['model' => $model]);
