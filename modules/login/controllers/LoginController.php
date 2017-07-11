@@ -127,7 +127,6 @@ class LoginController extends Controller
                 //save the random string in the database for password reset
                 $emailConfirmationModel->save();
                 
-                Yii::info($emailConfirmationModel->getExpirationTimestamp());
                 return $this->render('forgotConfirm');
             } catch (\Exception $e) {
                 Yii::error($e->getMessage() . ' ' . $e->getFile() . ' '
