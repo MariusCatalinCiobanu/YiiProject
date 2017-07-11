@@ -99,7 +99,8 @@ class LoginController extends Controller
     //
     public function actionForgotPassword()
     {
-        $model = new ForgotPasswordForm(['scenario' => 
+    
+        $model = new ForgotPasswordForm(['scenario' =>
             ForgotPasswordForm::SCENARIO_FORGOT_PASSWORD]);
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $emailConfirmationModel = EmailConfirmation::findOrCreate($model);
@@ -125,11 +126,13 @@ class LoginController extends Controller
 
                 //save the random string in the database for password reset
                 $emailConfirmationModel->save();
+                
+                Yii::info($emailConfirmationModel->getExpirationTimestamp());
                 return $this->render('forgotConfirm');
             } catch (\Exception $e) {
                 Yii::error($e->getMessage() . ' ' . $e->getFile() . ' '
                         . $e->getLine() . ' ' . $e->getTraceAsString());
-                
+
                 //throw back the exception
                 throw $e;
 //                return $this->render('forgotPassword', ['model' => $model]);
@@ -150,6 +153,12 @@ class LoginController extends Controller
         $emailConfirmModel = EmailConfirmation::findByForgotPasswordToken($key);
         if ($emailConfirmModel == null) {
             throw new \yii\base\UserException('Invalid request');
+        }
+
+        if ($emailConfirmModel->forgotPasswordHasExpired() == true) {
+            $now = (new \DateTime())->format('H:i:s');
+            Yii::info('now = ' . $now . ' expire: ' . $emailConfirmModel->expiration_timestamp);
+            throw new \yii\base\UserException('Request has expired');
         }
 
         //get the new password

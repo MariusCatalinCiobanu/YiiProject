@@ -14,6 +14,7 @@ use app\models\User;
  * @property string $register_key
  * @property string $forgot_password
  * @property int $user_id
+ * @property DateTime expiration_timestamp
  */
 class EmailConfirmation extends ActiveRecord
 {
@@ -36,6 +37,7 @@ class EmailConfirmation extends ActiveRecord
             [['register_key', 'forgot_password'], 'string', 'max' => 32],
             [['register_key'], 'unique'],
             [['forgot_password'], 'unique'],
+            [['expiration_timestamp'], 'string']
         ];
     }
 
@@ -49,6 +51,7 @@ class EmailConfirmation extends ActiveRecord
             'register_key' => 'Register Key',
             'forgot_password' => 'Forgot Password',
             'user_id' => 'User ID',
+            'expiration_timestamp' => 'Expiration Timestamp',
         ];
     }
 
@@ -91,15 +94,40 @@ class EmailConfirmation extends ActiveRecord
             return null;
         }
         $model = EmailConfirmation::findByUserId($user->id);
+
+        //The user has 1 hour to reset his password or the request will expire
+        $now = new \DateTime();
+        $hours = 1;
+
+        //add 1 hour to datetime
+        $now->add(new \DateInterval("PT{$hours}H"));
+        $expirationTimeStamp = $now->format('Y-m-d H:i:s');
+        Yii::info('expiration timestamp' . $expirationTimeStamp);
         if ($model === null) {
             Yii::info('Record does not exists');
             $model = new EmailConfirmation();
             $model->user_id = $user->id;
+            $model->expiration_timestamp = $expirationTimeStamp;
             return $model;
         } else {
             Yii::info('Record alredy exists');
+            $model->expiration_timestamp = $expirationTimeStamp;
             return $model;
         }
+    }
+
+    //
+    //Checks if the request for reset password has expired
+    //@return boolean 
+    //
+    public function forgotPasswordHasExpired()
+    {
+        Yii::info('type of expiration_timestamp = ' . gettype($this->expiration_timestamp));
+        $now = (new \DateTime())->format('Y-m-d H:i:s');
+        if ($now > $this->expiration_timestamp) {
+            return true;
+        }
+        return false;
     }
 
     //
