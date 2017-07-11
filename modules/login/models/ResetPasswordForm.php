@@ -1,9 +1,9 @@
 <?php
 
 namespace app\modules\login\models;
+use yii\base\Model;
 
-
-class ResetPasswordForm extends \yii\base\Model
+class ResetPasswordForm extends Model
 {
 
     public $password;

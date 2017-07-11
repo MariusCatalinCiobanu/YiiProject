@@ -18,11 +18,13 @@ class TripSearch extends Trip
      */
     public function rules()
     {
-        return [
-            [['id', 'user_id'], 'integer'],
-            [['name', 'description', 'destination_country', 'destination_city'], 'safe'],
-            [['destination_latitude', 'destination_longitude', 'home_latitude', 'home_longitude'], 'number'],
-        ];
+        $rules = parent::rules();
+        return $rules;
+//        return [
+//            [['id', 'user_id'], 'integer'],
+//            [['name', 'description', 'destination_country', 'destination_city'], 'safe'],
+//            [['destination_latitude', 'destination_longitude', 'home_latitude', 'home_longitude'], 'number'],
+//        ];
     }
 
     /**

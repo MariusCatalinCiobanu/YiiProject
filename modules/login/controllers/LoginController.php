@@ -99,7 +99,8 @@ class LoginController extends Controller
     //
     public function actionForgotPassword()
     {
-        $model = new ForgotPasswordForm();
+        $model = new ForgotPasswordForm(['scenario' => 
+            ForgotPasswordForm::SCENARIO_FORGOT_PASSWORD]);
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $emailConfirmationModel = EmailConfirmation::findOrCreate($model);
             if ($emailConfirmationModel === null) {

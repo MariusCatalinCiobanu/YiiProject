@@ -2,18 +2,21 @@
 
 namespace app\modules\login\models;
 
-class ForgotPasswordForm extends \yii\base\Model
+use app\models\User;
+use yii\helpers\ArrayHelper;
+
+class ForgotPasswordForm extends User
 {
 
     public $email;
 
-
     public function rules()
     {
-        return[
-            [['email'], 'required'],
-            [['email'], 'string', 'max' => 45],
-        ];
+        $rules = parent::rules();
+        $rules = ArrayHelper::merge($rules, [
+                    [['email'], 'required']
+        ]);
+        return $rules;
     }
 
 }

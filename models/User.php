@@ -27,6 +27,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     const SCENARIO_LOGIN = 'login';
     const SCENARIO_REGISTER = 'register';
+    const SCENARIO_FORGOT_PASSWORD = 'forgotPassword';
 
     /**
      * @inheritdoc
@@ -52,6 +53,7 @@ class User extends ActiveRecord implements IdentityInterface
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_LOGIN] = ['email', 'password'];
         $scenarios[self::SCENARIO_REGISTER] = ['email', 'password', 'type'];
+        $scenarios[self::SCENARIO_FORGOT_PASSWORD] = ['email'];
         return $scenarios;
     }
 
