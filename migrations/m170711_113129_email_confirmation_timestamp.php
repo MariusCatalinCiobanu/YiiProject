@@ -8,7 +8,7 @@ class m170711_113129_email_confirmation_timestamp extends Migration
     {
         $this->addColumn('Email_Confirmation',
                 'expiration_timestamp',
-                $this->timestamp());
+                $this->timestamp()->notNull());
     }
 
     public function safeDown()
