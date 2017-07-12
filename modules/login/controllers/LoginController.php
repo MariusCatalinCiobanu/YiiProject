@@ -11,7 +11,7 @@ use app\modules\login\models\LoginForm;
 use app\models\EmailConfirmation;
 use app\modules\login\models\ForgotPasswordForm;
 use app\modules\login\models\ResetPasswordForm;
-
+use app\classes\Constants;
 class LoginController extends Controller
 {
 
@@ -69,11 +69,20 @@ class LoginController extends Controller
      */
     public function actionIndex()
     {
+        Yii::info('Bootstraping works:' . Constants::TEST);
+        Yii::info('Alias works:' . Yii::getAlias('@constants'));
+        
+        //If logged in redirect to a page accordingly to it's user role
         if (!Yii::$app->user->isGuest) {
             $this->redirectBasedOnRole();
         }
+     
         $model = new LoginForm(['scenario' => LoginForm::SCENARIO_LOGIN]);
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            
+            //Go to the last page visited, or go home which is this controller
+            //If the user is redirected back here, he will be redirected to a 
+            //page based on his user role
             return $this->goBack();
         }
         return $this->render('login', [
@@ -96,7 +105,8 @@ class LoginController extends Controller
     //
     //Forgot password action, collects the email adress and sends a email with a 
     //url for changing the password
-    //
+    //@return string
+    //@throws \yii\db\Exception
     public function actionForgotPassword()
     {
     
@@ -145,6 +155,9 @@ class LoginController extends Controller
     //This is the action called by the link in the email for password reset, it 
     //should have a key as query string. If the key is correct the user can change 
     //his password
+    //@param string key, the random string that was generated and send in mail
+    //@return string | Response
+    //@throws mixed
     //
     public function actionResetPassword($key = null)
     {
@@ -154,13 +167,13 @@ class LoginController extends Controller
             throw new \yii\base\UserException('Invalid request');
         }
 
+        //check if the password has expired
         if ($emailConfirmModel->forgotPasswordHasExpired() == true) {
             $now = (new \DateTime())->format('H:i:s');
             Yii::info('now = ' . $now . ' expire: ' . $emailConfirmModel->expiration_timestamp);
             throw new \yii\base\UserException('Request has expired');
         }
 
-        //get the new password
 
         $resetPasswordModel = new ResetPasswordForm();
         if ($resetPasswordModel->load(Yii::$app->request->post()) && $resetPasswordModel->validate()) {
@@ -191,6 +204,7 @@ class LoginController extends Controller
     //
     //This method is used to redirect to the home page of the user based on 
     //his role
+    //@return Response
     //
     public function redirectBasedOnRole()
     {

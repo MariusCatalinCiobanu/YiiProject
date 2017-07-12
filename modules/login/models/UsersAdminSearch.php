@@ -51,6 +51,11 @@ class UsersAdminSearch extends UsersAdmin
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => ['pageSize' => 10],
+            'sort' => [
+                'defaultOrder' => [
+                    'email' => SORT_ASC
+                ]
+            ],
         ]);
 
         $this->load($params);

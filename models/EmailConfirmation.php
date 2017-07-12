@@ -97,8 +97,8 @@ class EmailConfirmation extends ActiveRecord
 
         //The user has 1 hour to reset his password or the request will expire
         $now = new \DateTime();
-        $hours = 1;
-
+        $hours = Yii::$app->params['ForgotPasswodReqExpireInNrHours'];
+        Yii::info('ForgotPasswodReqExpireInNrHours' . $hours);
         //add 1 hour to datetime
         $now->add(new \DateInterval("PT{$hours}H"));
         $expirationTimeStamp = $now->format('Y-m-d H:i:s');

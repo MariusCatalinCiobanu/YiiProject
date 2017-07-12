@@ -160,6 +160,7 @@ class TripController extends Controller
      * Creates a new TripForm model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
+     * @throws \yii\db\Exception
      */
     public function actionCreate()
     {
@@ -207,6 +208,7 @@ class TripController extends Controller
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
+     * @throws \yii\db\Exception
      */
     public function actionUpdate($id)
     {

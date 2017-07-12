@@ -6,10 +6,13 @@ $db = require(__DIR__ . '/db.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+        'app\classes\Constants'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
+        '@constants' => '@app/classes',
     ],
     'components' => [
         'request' => [
@@ -67,12 +70,26 @@ $config = [
             'enablePrettyUrl' => true,
             //if strictParsing is enabled it must match at least one rule
             //from rules to get accepted, otherwise it will throw a 404 
-            //'enableStrictParsing' => true,
+            'enableStrictParsing' => false,
             'rules' => [
+                
+                //routing for modules.
+                //The module name isn't required in the url. So instead of urls
+                //like login/login/index the url will be login/index
+                //
+                'class' => 'yii\web\UrlRule',
+                
+                //controller, action and id are variables that have the value equal to the
+                //the regex after the ':'. on the right is the correct route. 
+                //Variables are found between '<>'.
+                '<controller:(admin-panel|login)>/<action:\w+>/<id:\d+>' => 'login/<controller>/<action>/<id>',
+                '<controller:(admin-panel|login)>/<action:\w+>' => 'login/<controller>/<action>',
+                '<controller:(trip)>/<action:\w+>/<id:\d+>' => 'trip/<controller>/<action>/<id>',
+                '<controller:(trip)>/<action:\w+>' => 'trip/<controller>/<action>',
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['ws/user']
-                ]
+                ],
             ],
         ],
         'authManager' => [

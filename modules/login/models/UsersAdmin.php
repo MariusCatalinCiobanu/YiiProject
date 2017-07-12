@@ -71,16 +71,19 @@ class UsersAdmin extends User
     //
     public static function findModelWithUpdatedAndCreated($id)
     {
+//        //query caching
+//        $result = UsersAdmin::getDb()->cache(function($db) use($id) {
+            //'cb' and 'ub' are aliases for sql join
+            $model = UsersAdmin::find($id)
+                    ->from('user u')
+                    ->innerJoinWith('createdBy cb')
+                    ->innerJoinWith('updatedBy ub')
+                    ->where(['u.id' => $id])
+                    ->one();
 
-        //'cb' and 'ub' are aliases for sql join
-        $model = UsersAdmin::find($id)
-                ->from('user u')
-                ->innerJoinWith('createdBy cb')
-                ->innerJoinWith('updatedBy ub')
-                ->where(['u.id' => $id])
-                ->one();
-
-        return $model;
+            return $model;
+//        });
+//        return $result;
     }
 
     //

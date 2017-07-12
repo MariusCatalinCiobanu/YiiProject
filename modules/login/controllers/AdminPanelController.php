@@ -46,12 +46,30 @@ class AdminPanelController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            
+              //
+              //Doesn't work because the sql dependecy only checks if the number
+              //of users has changed and not if any of the user is updated, or
+              //what page is selected
+//            //page cache
+//            [
+//                'class' => 'yii\filters\PageCache',
+//                'only' => ['index'],
+//                'duration' => 60,
+//                'variations' => [
+//                    \Yii::$app->language,
+//                ],
+//                'dependency' => [
+//                    'class' => 'yii\caching\DbDependency',
+//                    'sql' => 'SELECT COUNT(*) FROM user',
+//                ],
+//            ],
         ];
     }
 
     /**
      * Lists all UsersAdmin models.
-     * @return mixed
+     * @return string
      */
     public function actionIndex()
     {
@@ -83,7 +101,8 @@ class AdminPanelController extends Controller
     /**
      * Creates a new UsersAdmin model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * @return string
+     * @throws \yii\db\Exception 
      */
     public function actionCreate()
     {
@@ -116,7 +135,7 @@ class AdminPanelController extends Controller
             Yii::error($e->getMessage() . ' ' . $e->getFile() . ' '
                     . $e->getLine() . ' ' . $e->getTraceAsString());
             $model->removePasswordFromModel();
-            
+
             //throw the exception back
             throw $e;
 //            return $this->render('create', [

@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'created_by',
                 'value' => function($data) {
-                    return $data->updatedBy->email;
+                    return $data->createdBy->email;
                 }
             ],
             [
