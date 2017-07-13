@@ -1,0 +1,4 @@
+1)in projectPath/tests/webdriver run:
+java -jar "selenium-server-standalone-3.4.0.jar"
+2)in root file of the project run:
+php codecept.phar run
