@@ -7,6 +7,11 @@ class m170629_080405_create_tables extends Migration
 
     public function safeUp()
     {
+        //create database yiidemo;
+        //CREATE USER 'yii2demo'@'localhost' IDENTIFIED BY 'yii2demo';
+        //GRANT ALL PRIVILEGES ON yii2demo.* TO 'yii2demo'@'localhost'
+        //CREATE DATABASE yiidemo_test;
+        //GRANT ALL PRIVILEGES ON yiidemo_test.* TO 'yiidemo'@'localhost';
         $this->createTable('trip' , [
             'id' => $this->primaryKey(),
             'name' => $this->string(45)->notNull(),
@@ -33,7 +38,7 @@ class m170629_080405_create_tables extends Migration
             'password' => $this->string(60)->notNull(),
             'type' => $this->string(45)->notNull(),
             //generateRandomString result size
-            'auth_key' => $this->string(32)->notNull(),
+            'auth_key' => $this->string(32)->notNull()->unique(),
             'created_at' => $this->dateTime()->notNull(),
             'updated_at' => $this->dateTime()->notNull(),
             'created_by' => $this->integer()->notNull(),

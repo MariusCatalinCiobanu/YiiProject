@@ -27,7 +27,7 @@ class m170629_085000_insert_data extends Migration
         $this->execute("INSERT INTO `user` (`id`, `email`, `password`, `type`, "
                 . "`auth_key`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES"
                 . "(2, 'regular@mail.com', " . '\'$2y$13$Ns6WgDgj8WZ51jg2PVYcEO1kP0EI0KcOg99y6c8hSILLOVGTLIyZa\'' . ", '"
-                . AuthorizationConstants::REGULAR_USER_ROLE . "', '1JvxT2EeBBXXmJCSPFjM9PPG9qfurAPf', "
+                . AuthorizationConstants::REGULAR_USER_ROLE . "', 'cXGp1ceLwHyOQRbfPQXEskiooJuUODeO', "
                 . "'2017-06-27 10:47:10', '2017-06-27 10:47:10', 1, 1)");
 
         //enable the foreign key constrains

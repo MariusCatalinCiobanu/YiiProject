@@ -6,5 +6,5 @@ modules:
             browser: chrome
         - Yii2:
             part: orm
-            entryScript: index.php
+            entryScript: index-test.php
             cleanup: false
